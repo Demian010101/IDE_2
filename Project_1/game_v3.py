@@ -1,7 +1,7 @@
 import random
 
-def random_predict(number: int = 1) -> int:
-    """Рандомно угадываем число
+def binary_search_predict(number: int = 1) -> int:
+    """Угадываем число методом бинарного поиска
 
     Args:
         number (int, optional): Загаданное число. Defaults to 1.
@@ -13,9 +13,10 @@ def random_predict(number: int = 1) -> int:
     min_num = 1
     max_num = 100
 
-    while True:
+    while min_num <= max_num:
         count += 1
-        predict_number = random.randint(min_num, max_num)  # предполагаемое число
+        predict_number = (min_num + max_num) // 2  # предполагаемое число
+        
         if predict_number == number:
             break  # выход из цикла если угадали
         elif predict_number < number:
@@ -23,16 +24,14 @@ def random_predict(number: int = 1) -> int:
         else:
             max_num = predict_number - 1
             
-        if count >= 20:
-            break  # выход из цикла, если исчерпано 20 попыток
     return count
 
 
-def score_game(random_predict) -> int:
+def score_game(binary_search_predict) -> int:
     """За какое количство попыток в среднем за 1000 подходов угадывает наш алгоритм
 
     Args:
-        random_predict ([type]): функция угадывания
+        binary_search_predict ([type]): функция угадывания
 
     Returns:
         int: среднее количество попыток
@@ -42,7 +41,7 @@ def score_game(random_predict) -> int:
     random_array = [random.randint(1, 100) for _ in range(1000)]  # загадали список чисел
 
     for number in random_array:
-        count_ls.append(random_predict(number))
+        count_ls.append(binary_search_predict(number))
 
     score = int(sum(count_ls) / len(count_ls))
     print(f"Ваш алгоритм угадывает число в среднем за: {score} попыток")
@@ -51,7 +50,8 @@ def score_game(random_predict) -> int:
 
 if __name__ == "__main__":
     # RUN
-    score_game(random_predict)
+    score_game(binary_search_predict)
+
 
 
 
